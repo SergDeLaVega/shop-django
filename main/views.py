@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse('Hpme Page')
+    return render(request, "main/index.html")
 
 def about(request):
     return HttpResponse('About Page')
