@@ -1,0 +1,1 @@
+Сreating an online store based on django for the course - https://www.youtube.com/watch?v=w-ITLbRfhnA&t=5121s
