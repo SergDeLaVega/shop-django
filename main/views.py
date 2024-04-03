@@ -5,7 +5,16 @@ from django.shortcuts import render
 
 
 def index(request):
-    return render(request, "main/index.html")
+    context = {
+        "title": "Home"
+    }
+    return render(request, "main/index.html", context=context)
 
 def about(request):
-    return HttpResponse('About Page')
+    context = {
+        "title": "О нас",
+        "content": "Страница о нас",
+        "text": "Небольшое описание о том кто мы такие"
+
+    }
+    return render(request, "main/about.html", context=context)
