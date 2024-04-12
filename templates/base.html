@@ -1,5 +1,6 @@
 <!doctype html>
 {% load static %}
+{% load goods_tags %}
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -158,12 +159,13 @@
 											Catalog
 										</a>
 										<ul class="dropdown-menu dropdown-menu-end">
+											{% tag_categories as categories %}
+											{% for cat  in  categories%}
 											<li>
-												<a class="dropdown-item" href="category.html">Shoes</a>
+												<a class="dropdown-item" href="{% url "goods:catalog" cat.slug %}">{{cat.name}}</a>
 											</li>
-											<li>
-												<a class="dropdown-item" href="category.html">Jeans</a>
-											</li>
+											{% endfor %}
+											<!--
 											<li class="nav-item dropend">
 												<a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"
 													data-bs-auto-close="outside">Sportswear</a>
@@ -179,12 +181,7 @@
 													</li>
 												</ul>
 											</li>
-											<li>
-												<a class="dropdown-item" href="category.html">Coat</a>
-											</li>
-											<li>
-												<a class="dropdown-item" href="category.html">Shirts</a>
-											</li>
+											-->
 										</ul>
 									</li>
 								</ul>
