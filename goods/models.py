@@ -7,6 +7,7 @@ class Categories(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='Название')
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
     description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    image = models.ImageField(upload_to='category_images/', verbose_name='Изображение', blank=True)
 
     class Meta:
         db_table = 'category'
@@ -21,8 +22,8 @@ class Products(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название товара')
     slug = models.SlugField(unique=True, verbose_name='Slug')
     brief_description = models.TextField(verbose_name='Краткое описание')
-    full_description = models.TextField(verbose_name='Полное описание')
-    features = models.TextField(verbose_name='Особенности')
+    full_description = models.TextField(verbose_name='Полное описание', blank=True,)
+    features = models.TextField(verbose_name='Особенности', blank=True,)
     price = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Цена')
     discount = models.DecimalField(max_digits=9, decimal_places=2, verbose_name='Скидка', blank=True, null=True)
     quantity = models.IntegerField(verbose_name='Количество', default=0)

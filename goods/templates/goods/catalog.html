@@ -8,9 +8,8 @@
         <div class="col-12">
             <nav class="breadcrumbs">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Shop</a></li>
-                    <li><span>Category Name</span></li>
+                    <li><a href="{% url "main:index" %}">Home</a></li>
+                    <li><span>{{cat.name}}</span></li>
                 </ul>
             </nav>
         </div>
@@ -169,15 +168,17 @@
         <div class="col-lg-9 col-md-8">
             <div class="row mb-3">
                 <div class="col-12">
-                    <h1 class="section-title h3"><span>Category Name</span></h1>
+                    <h1 class="section-title h3"><span>{{cat.name}}</span></h1>
                 </div>
                 <div class="col-4 col-sm-2">
-                    <img src="img/products/8.jpg" alt="" class="img-thumbnail">
+                    {% if cat.image %}
+                            <img src="{{cat.image.url}}" alt="" class="img-thumbnail">
+                            {%else%}
+                            <img src="{%static "img/products/alt.jpg"%}" alt="" class="img-thumbnail">
+                    {% endif %}
                 </div>
                 <div class="col-8 col-sm-10">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa voluptate porro
-                        suscipit sit earum quia aliquid, illum eos esse fuga nam sed molestiae non laborum
-                        exercitationem saepe, dolores incidunt quidem!</p>
+                    <p>{{cat.description }}</p>
                 </div>
             </div>
 
@@ -235,7 +236,7 @@
                             <p class="product-excerpt">{{product.brief_description}}</p>
                             <div class="product-bottom-details d-flex justify-content-between">
                                 <div class="product-price">
-                                    {% if product.discount  %}
+                                    {% if product.discount%}
                                     <small>${{product.price}}</small>
                                     ${{product.sell_price}}
                                     {% else %}

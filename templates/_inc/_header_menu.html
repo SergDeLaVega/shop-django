@@ -1,0 +1,157 @@
+{% load static %}
+{% load goods_tags %}
+{% load about_tags %}
+{% load contact_tags %}
+{% load delivery_tags %}
+{% load pyment_tags %}
+<div class="header-bottom sticky-top" id="header-nav">
+    <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-start" id="offcanvasNavbar" tabindex="-1"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Catalog</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url "main:index" %}">Главная</a>
+                        </li>
+                        {% tag_about as about %}
+                        {% if about %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "main:about" %}">{{about.name}}</a>
+                        </li>
+                        {% endif %}
+                        {% tag_contact as contact %}
+                        {% if contact %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "main:contact" %}">{{contact.name}}</a>
+                        </li>
+                        {% endif %}
+                        {% tag_pyment as pyment %}
+                        {% if pyment  %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "main:pyment" %}">{{pyment.name}}</a>
+                        </li>
+                        {% endif %}
+                        {% tag_delivery as delivery %}
+                        {% if delivery%}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url "main:delivery" %}">{{delivery.name}}</a>
+                        </li>
+                        {% endif %}
+                        {% tag_categories as categories %}
+                        {% if categories %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" data-bs-auto-close="outside">
+                                Каталог
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                {% for cat  in  categories%}
+                                <li>
+                                    <a class="dropdown-item" href="{% url "goods:catalog" cat.slug %}">{{cat.name}}</a>
+                                </li>
+                                {% endfor %}
+                                <!--
+                                <li class="nav-item dropend">
+                                    <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside">Sportswear</a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <a class="dropdown-item" href="category.html">Men's Sportswear</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="category.html">Women's Sportswear</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="category.html">Baby's Sportswear</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                -->
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <a href="#" class="btn p-1">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="badge text-bg-warning cart-badge bg-warning rounded-circle">3</span>
+                </a>
+
+                <button class="btn p-1" id="cart-open" type="button" data-bs-toggle="offcanvas2"
+                    data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge text-bg-warning cart-badge bg-warning rounded-circle">5</span>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+</div>
+<!-- ./header-bottom -->
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="table-responsive">
+            <table class="table offcanvasCart-table">
+                <tbody>
+                    <tr>
+                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/1.jpg" %}" alt=""></a>
+                        </td>
+                        <td><a href="#">Product 1 Lorem ipsum dolor, sit amet consectetur adipisicing.</a></td>
+                        <td>$65</td>
+                        <td>&times;1</td>
+                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/2.jpg" %}" alt=""></a>
+                        </td>
+                        <td><a href="#">Product 2</a></td>
+                        <td>$80</td>
+                        <td>&times;2</td>
+                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/3.jpg" %}" alt=""></a>
+                        </td>
+                        <td><a href="#">Product 3</a></td>
+                        <td>$100</td>
+                        <td>&times;1</td>
+                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-end">Total:</td>
+                        <td>$325</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="text-end mt-3">
+            <a href="#" class="btn btn-outline-warning">Cart</a>
+            <a href="#" class="btn btn-outline-secondary">Checkout</a>
+        </div>
+    </div>
+</div>

@@ -7,8 +7,8 @@
         <div class="col-12">
             <nav class="breadcrumbs">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="category.html">Category</a></li>
+                    <li><a href="{% url "main:index" %}">Home</a></li>
+                    <li><a href="{% url "goods:catalog" product.category.slug %}">{{product.category}}</a></li>
                     <li><span>Product Name</span></li>
                 </ul>
             </nav>
@@ -20,10 +20,6 @@
     <div class="row">
         <div class="col-md-5 col-lg-4 mb-3">
             <div class="bg-white h-100">
-                <!--
-                <img src="{{product.image.url}}" class="d-block w-100" alt="{{product.name}}">
-                -->
-
                 <div id="carouselExampleFade" class="carousel carousel-dark slide carousel-fade">
                     <div class="carousel-inner">
                         {% for image in product.images.all %}
@@ -78,7 +74,7 @@
                             cart</button>
                     </div>
                 </div>
-
+                {% if conditions %}
                 <div class="row mt-3">
                     {% for item in conditions %}
                     <div class="col-lg-4 mb-2">
@@ -95,68 +91,50 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <!--
-                    <div class="col-lg-4 mb-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa-solid fa-truck-fast"></i> Доставка</h5>
-                                <ul class="list-unstyled">
-                                    <li>Доставка по всей стране</li>
-                                    <li>Доставка почтой</li>
-                                    <li>Самовывоз</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4 mb-2">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="fa-regular fa-credit-card"></i> Оплата</h5>
-                                <ul class="list-unstyled">
-                                    <li>Наличный рассчет</li>
-                                    <li>Безналичный рассчет</li>
-                                    <li>VISA/MasterCard</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                 </div>
-
+                {% endif %}
             </div>
         </div>
     </div>
 
     <div class="row mt-3">
+        {% if product.full_description or  product.features or product.local_video%}
         <div class="col-12">
             <div class="product-content-details bg-white p-4">
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    {% if  product.full_description%}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="description-tab" data-bs-toggle="tab"
                             data-bs-target="#description-tab-pane" type="button" role="tab"
-                            aria-controls="description-tab-pane" aria-selected="true">Description</button>
+                            aria-controls="description-tab-pane" aria-selected="true">Описание</button>
                     </li>
+                    {% endif %}
+                    {% if  product.features%}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="features-tab" data-bs-toggle="tab"
                             data-bs-target="#features-tab-pane" type="button" role="tab"
-                            aria-controls="features-tab-pane" aria-selected="false">Features</button>
+                            aria-controls="features-tab-pane" aria-selected="false">Характеристики</button>
                     </li>
+                    {% endif %}
+                    {% if product.features%}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="reviews-tab" data-bs-toggle="tab"
                             data-bs-target="#reviews-tab-pane" type="button" role="tab"
-                            aria-controls="reviews-tab-pane" aria-selected="false">Reviews (10)</button>
+                            aria-controls="reviews-tab-pane" aria-selected="false">Отзывы (10)</button>
                     </li>
+                    {% endif %}
+                    {% if product.local_video%}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="video-tab" data-bs-toggle="tab"
                             data-bs-target="#video-tab-pane" type="button" role="tab"
-                            aria-controls="video-tab-pane" aria-selected="false">Video</button>
+                            aria-controls="video-tab-pane" aria-selected="false">Видео обзор</button>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="description-tab-pane" role="tabpanel"
                         aria-labelledby="description-tab" tabindex="0">
-                        {{product.full_description}}
+                        {{product.full_description|safe}}
                     </div>
                     <div class="tab-pane fade" id="features-tab-pane" role="tabpanel"
                         aria-labelledby="features-tab" tabindex="0">
@@ -320,9 +298,11 @@
                     <div class="tab-pane fade" id="video-tab-pane" role="tabpanel"
                         aria-labelledby="video-tab" tabindex="0">
                         <div class="ratio ratio-16x9">
-                            
+                            {% if product.local_video %}
                             <video src="{{product.local_video.url}}" controls></video>
-                            
+                            {%else%}
+                            Видео отсутствует
+                            {% endif %}
                             <!--
                             <iframe width="560" height="315" src="{{product.video}}"
                                 title="YouTube video player" frameborder="0"
@@ -334,231 +314,64 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 
+{% if new %}
 <section class="new-products">
     <div class="container">
         <div class="row mb-5">
             <div class="col-12">
                 <h2 class="section-title">
-                    <span>Новинки</span>
+                    <span>{{new.name}}</span>
                 </h2>
             </div>
         </div>
 
         <div class="owl-carousel owl-theme owl-carousel-full">
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/1.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 1 Lorem ipsum dolor, sit amet consectetur
-                            adipisicing.</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                        Placeat, aperiam!</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
+            {% for item in news  %}
+                <div class="product-card">
+                    <div class="product-card-offer">
+                        {% if item.is_best_seller %}
+                        <div class="offer-hit">Hit</div>
+                        {% endif %}
+                        {% if item.is_new %}
+                        <div class="offer-new">New</div>
+                        {% endif %}
+                    </div>
+                    <div class="product-thumb">
+                        {% if item.images %}
+                        <a href="{% url "goods:product" item.slug %}"><img src="{{ item.images.all.0.image.url }}" alt=""></a>
+                        {%else%}
+                        <a href="{% url "goods:product" item.slug %}"><img src="{%static "img/products/alt.jpg"%}" alt=""></a>
+                        {% endif %}
+                    </div>
+                    <div class="product-details">
+                        <h4>
+                            <a href="{% url "goods:product" item.slug %}">{{item.name}}</a>
+                        </h4>
+                        <p class="product-excerpt">{{item.brief_description}}</p>
+                        <div class="product-bottom-details d-flex justify-content-between">
+                            <div class="product-price">
+                                {% if item.discount  %}
+                                <small>${{item.price}}</small>
+                                ${{item.sell_price}}
+                                {% else %}
+                                ${{item.price}}
+                                {% endif %}
+                            </div>
+                            <div class="product-links">
+                                <a href="#" class="btn btn-outline-secondary add-to-cart"><i
+                                        class="fas fa-shopping-cart"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/2.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 2</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <!-- <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div> -->
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/3.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 3 Lorem ipsum</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            $100
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/4.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 4</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/5.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 5 Lorem ipsum dolor, sit amet consectetur
-                            adipisicing.</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                        Placeat, aperiam!</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/6.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 6</a>
-                    </h4>
-                    <p class="product-excerpt"></p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/7.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 7</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                        Placeat, aperiam!</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-card-offer">
-                    <div class="offer-hit">Hit</div>
-                    <div class="offer-new">New</div>
-                </div>
-                <div class="product-thumb">
-                    <a href="product.html"><img src="img/products/8.jpg" alt=""></a>
-                </div>
-                <div class="product-details">
-                    <h4>
-                        <a href="product.html">Product 8 Lorem</a>
-                    </h4>
-                    <p class="product-excerpt">Lorem ipsum dolor</p>
-                    <div class="product-bottom-details d-flex justify-content-between">
-                        <div class="product-price">
-                            <small>$70</small>
-                            $65
-                        </div>
-                        <div class="product-links">
-                            <a href="#" class="btn btn-outline-secondary add-to-cart"><i
-                                    class="fas fa-shopping-cart"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                {% endfor %}
         </div>
 
     </div>
 </section>
-
+{% endif %}
 {% endblock content %}

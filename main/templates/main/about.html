@@ -3,7 +3,21 @@
 
     {% block content %}
         <div class="container">
-            <h3>{{content}}</h3>
-            <p>{{text}}</p>
+            <section class="about-us" id="about">
+                <div class="container fluid">
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="section-title">
+                                <span>{{about.name}}</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{about.full_description|safe}}
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     {% endblock content %}
