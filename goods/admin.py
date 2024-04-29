@@ -1,5 +1,5 @@
 from django.contrib import admin
-from goods.models import Categories, Products, ProductImage, СonditionsItemCategory, СonditionsItemDetail
+from goods.models import Categories, Products, ProductImage, СonditionsItemCategory, СonditionsItemDetail, Feature, FeatureValue
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
@@ -17,11 +17,19 @@ class CategoriesAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = ["name",]
 
+class FeatureValueInline(admin.TabularInline):
+    model = FeatureValue
+    extra = 1
 
+@admin.register(Feature)
+class FeatureAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    inlines = [FeatureValueInline]
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
+
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
@@ -43,9 +51,12 @@ class ProductAdmin(admin.ModelAdmin):
         "is_best_seller", 
         "is_new", 
         "video", 
-        "local_video", 
+        "local_video",
+        "feature_values",
     ]
+    filter_horizontal = ('feature_values',)  # Это добавляет поле с возможностью выбора нескольких значений характеристик
     form = ProductAdmin
+
 
 
 admin.site.register(Products, ProductAdmin)
@@ -58,6 +69,8 @@ class СonditionsItemDetailInline(admin.TabularInline):  # Или использ
 class СonditionsItemCategoryAdmin(admin.ModelAdmin):
     list_display = ['name']  # Поля для отображения в списке
     inlines = [СonditionsItemDetailInline]
+
+
 
 
 

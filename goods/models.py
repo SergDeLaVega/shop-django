@@ -16,7 +16,27 @@ class Categories(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Feature(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Название характеристики')
 
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = 'Характеристики'
+        verbose_name_plural = 'Характеристика'
+
+class FeatureValue(models.Model):
+    feature = models.ForeignKey(Feature, related_name='values', on_delete=models.CASCADE)
+    value = models.CharField(max_length=255, verbose_name='Значение характеристики')
+
+    def __str__(self):
+        return self.value
+    
+    class Meta:
+        verbose_name = 'Значение характеристики'
+        verbose_name_plural = 'Значение характеристики'
 
 class Products(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название товара')
@@ -32,6 +52,7 @@ class Products(models.Model):
     video = models.URLField(verbose_name='Видео', blank=True, null=True)
     local_video = models.FileField(upload_to='videos/', verbose_name='Видео', blank=True, null=True)
     category = models.ForeignKey(to=Categories, on_delete=models.CASCADE, verbose_name='Категория')
+    feature_values = models.ManyToManyField('FeatureValue', related_name='products', verbose_name='Характеристики', blank=True)
 
 
     class Meta:
@@ -69,9 +90,6 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = 'Изображение продукта'
         verbose_name_plural = 'Изображения продуктов'
-
-
-    
     
 class СonditionsItemCategory(models.Model):
     name = models.CharField(max_length=200, verbose_name="Название пункта")
