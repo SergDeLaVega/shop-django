@@ -81,9 +81,9 @@
                 </div>
 
                 <div class="col-sm-6 mt-2 mt-md-0">
-                    <form action="">
+                    <form action="{% url "goods:search" %}" method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="s" placeholder="Searching..."
+                            <input type="text" class="form-control" name="q" placeholder="Searching..."
                                 aria-label="Searching..." aria-describedby="button-search">
                             <button class="btn btn-outline-warning" type="submit" id="button-search">
                                 <i class="fa-solid fa-magnifying-glass"></i>

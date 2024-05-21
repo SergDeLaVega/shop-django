@@ -30,7 +30,6 @@
 
                 <div class="collapse collapse-filters" id="collapseFilters">
                     <form method="get" action="">
-                    
                     <div class="filter-block">
                         {% for feature in features  %}
                             <h5 class="section-title"><span>{{feature.name}}</span></h5>
@@ -38,6 +37,9 @@
                                     {% if feature_value.products.count > 0 %}
                                         <div class="form-check d-flex justify-content-between">
                                             <div>
+                                                {% if request.GET.q %}
+                                                    <input type="hidden" name="q" value="{{ request.GET.q }}">
+                                                {% endif %}
                                                 <input class="form-check-input" type="checkbox" name="features" value="{{ feature_value.id }}" id="feature_{{ value.id }}">
                                                 <label class="form-check-label" for="feature_{{ feature_value.id }}">
                                                     {{ feature_value.value }}
@@ -57,22 +59,36 @@
         </div>
 
         <div class="col-lg-9 col-md-8">
+            {% if cat == True %}
             <div class="row mb-3">
                 <div class="col-12">
-                    <h1 class="section-title h3"><span>{{cat.name}}</span></h1>
+                    <h1 class="section-title h3"><span>Результаты поиска</span></h1>
                 </div>
                 <div class="col-4 col-sm-2">
-                    {% if cat.image %}
-                            <img src="{{cat.image.url}}" alt="" class="img-thumbnail">
-                            {%else%}
-                            <img src="{%static "img/products/alt.jpg"%}" alt="" class="img-thumbnail">
-                    {% endif %}
+                    <img src="{%static "img/products/search.jpg"%}" alt="" class="img-thumbnail">
                 </div>
                 <div class="col-8 col-sm-10">
-                    <p>{{cat.description }}</p>
+                    <p>Надеюсь вы нашли то что искали</p>
                 </div>
             </div>
 
+            {% else %}
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h1 class="section-title h3"><span>{{cat.name}}</span></h1>
+                    </div>
+                    <div class="col-4 col-sm-2">
+                        {% if cat.image %}
+                                <img src="{{cat.image.url}}" alt="" class="img-thumbnail">
+                                {%else%}
+                                <img src="{%static "img/products/alt.jpg"%}" alt="" class="img-thumbnail">
+                        {% endif %}
+                    </div>
+                    <div class="col-8 col-sm-10">
+                        <p>{{cat.description }}</p>
+                    </div>
+                </div>
+            {% endif %}
             <hr>
 
             <div class="row">
@@ -80,6 +96,9 @@
                     <form method="GET">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Sort By:</span>
+                            {% if request.GET.q %}
+                                <input type="hidden" name="q" value="{{ request.GET.q }}">
+                            {% endif %}
                             <select class="form-select" name="sort" aria-label="Sort by:" onchange="this.form.submit()">
                                 <option selected>Default</option>
                                 <option value="1">Name (a-z)</option>
@@ -94,6 +113,9 @@
                     <form method="GET">
                         <div class="input-group mb-3">
                             <span class="input-group-text">Show:</span>
+                            {% if request.GET.q %}
+                                <input type="hidden" name="q" value="{{ request.GET.q }}">
+                            {% endif %}
                             <select class="form-select" name="show" aria-label="Show:" onchange="this.form.submit()">
                                 <option selected>9</option>
                                 <option value="15">15</option>
