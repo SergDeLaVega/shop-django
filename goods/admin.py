@@ -4,7 +4,6 @@ from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 class ProductAdmin(forms.ModelForm):
-    brief_description = forms.CharField(widget=CKEditorUploadingWidget())
     full_description = forms.CharField(widget=CKEditorUploadingWidget())
     features = forms.CharField(widget=CKEditorUploadingWidget())
 

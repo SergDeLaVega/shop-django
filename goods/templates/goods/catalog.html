@@ -67,9 +67,11 @@
                 <div class="col-4 col-sm-2">
                     <img src="{%static "img/products/search.jpg"%}" alt="" class="img-thumbnail">
                 </div>
+                {% if request.GET.q %}
                 <div class="col-8 col-sm-10">
-                    <p>Надеюсь вы нашли то что искали</p>
+                    <h3>Результат поиска по запросу {{request.GET.q}}</h3>
                 </div>
+                {% endif %}
             </div>
 
             {% else %}
@@ -128,6 +130,9 @@
             </div>
 
             <div class="row">
+                {% if not goods %}
+                    <h2>По вашему запросу ничего не найдено</h2>
+                {% endif %}
                 {% for product in goods %}
                 <div class="col-lg-4 col-sm-6 mb-3">
                     <div class="product-card">
