@@ -694,3 +694,7 @@ footer a:hover {
     padding-right: 8px;
   }
 }
+
+.dropdown-menu.show {
+  z-index: 99999 !important;
+}
