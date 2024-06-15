@@ -4,6 +4,10 @@
 {% load contact_tags %}
 {% load delivery_tags %}
 {% load pyment_tags %}
+
+{% load carts_tags %}
+{% user_carts request as carts %}
+
 <div class="header-bottom sticky-top" id="header-nav">
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
@@ -81,10 +85,16 @@
                             </ul>
                         </li>
                         {% endif %}
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url "users:users_cart" %}">Корзина</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
 
+            <!--Кнопки понравившееся товары и корзина-->
             <div>
                 <a href="#" class="btn p-1">
                     <i class="fa-solid fa-heart"></i>
@@ -94,14 +104,20 @@
                 <button class="btn p-1" id="cart-open" type="button" data-bs-toggle="offcanvas2"
                     data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="badge text-bg-warning cart-badge bg-warning rounded-circle">5</span>
+                    <span class="badge text-bg-warning cart-badge bg-warning rounded-circle">{{carts.total_quantity }}</span>
                 </button>
             </div>
-
+            <!--Конец кнопки понравившееся товары и корзина-->
         </div>
     </nav>
 </div>
 <!-- ./header-bottom -->
+
+<!--Начало корзины-->
+{% block cart %}
+
+{% endblock cart %}
+
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
@@ -109,49 +125,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div class="table-responsive">
-            <table class="table offcanvasCart-table">
-                <tbody>
-                    <tr>
-                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/1.jpg" %}" alt=""></a>
-                        </td>
-                        <td><a href="#">Product 1 Lorem ipsum dolor, sit amet consectetur adipisicing.</a></td>
-                        <td>$65</td>
-                        <td>&times;1</td>
-                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/2.jpg" %}" alt=""></a>
-                        </td>
-                        <td><a href="#">Product 2</a></td>
-                        <td>$80</td>
-                        <td>&times;2</td>
-                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="product-img-td"><a href="#"><img src="{% static "img/products/3.jpg" %}" alt=""></a>
-                        </td>
-                        <td><a href="#">Product 3</a></td>
-                        <td>$100</td>
-                        <td>&times;1</td>
-                        <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colspan="4" class="text-end">Total:</td>
-                        <td>$325</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <div class="text-end mt-3">
-            <a href="#" class="btn btn-outline-warning">Cart</a>
-            <a href="#" class="btn btn-outline-secondary">Checkout</a>
-        </div>
+        <!--Начало корзины товаров-->
+        
+        {% include "carts/_inc/included_cart.html" %}
+        
+        <!--Конец козины товаров товаров-->
     </div>
 </div>
+<!--Конец корзины-->

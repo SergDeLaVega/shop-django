@@ -1,0 +1,69 @@
+{% load static %}
+{% load carts_tags %}
+{% user_carts request as carts %}
+
+<div class="table-responsive">
+    <table class="table offcanvasCart-table">
+        <tbody>
+            {% for cart in carts %}
+                <tr>
+                    {% if cart.product.images %}
+                            <td class="product-img-td"><a href="{% url "goods:product" cart.product.slug %}"><img src="{{ cart.product.images.all.0.image.url }}" alt=""></a>
+                            </td>
+                            {%else%}
+                            <td class="product-img-td"><a href="{% url "goods:product" cart.product.slug %}"><img src="{% static "img/products/alt.jpg" %}" alt=""></a>
+                    {% endif %}
+                    <td><a href="{% url "goods:product" cart.product.slug %}">{{cart.product.name}}</a></td>
+                    <td>${{cart.products_price}}</td>
+                    
+                    <td>&times;{{cart.quantity}}</td>
+                    
+                    <!--
+                    <td class="w-25">
+                        <div class="row text-center">
+                            <div class="col p-0">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-dark btn-sm decrement"
+                                            data-cart-id="{{ cart.id }}"
+                                            data-cart-change-url="#">
+                                            {% csrf_token %}
+                                            -</button>
+                                    </span>
+                                    <input type="text" class="form-control number" value="{{ cart.quantity }}"
+                                        readonly>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-dark btn-sm increment"
+                                            data-cart-id="{{ cart.id }}"
+                                            data-cart-change-url="#">
+                                            {% csrf_token %}
+                                            +</button>
+                                    </span>
+                                </div>
+                            </div>
+                    </td>
+                    -->
+                    <!--
+                    <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
+                    -->
+                    <td><a href="{% url "cart:cart_remove" cart.id %}"><i class="fa-regular fa-circle-xmark"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end">Total:</td>
+                <td>${{carts.total_price}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<div class="text-end mt-3">
+    {% if carts %}
+    <a href="#" class="btn btn-outline-warning">Оформить заказ</a>
+    {% endif %}
+    <!--
+    <a href="#" class="btn btn-outline-secondary">Checkout</a>
+    -->
+</div>
