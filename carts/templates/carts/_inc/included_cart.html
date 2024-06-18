@@ -2,7 +2,7 @@
 {% load carts_tags %}
 {% user_carts request as carts %}
 
-<div class="table-responsive">
+<div class="table-responsive" id="cart-items-container">
     <table class="table offcanvasCart-table">
         <tbody>
             {% for cart in carts %}
@@ -46,7 +46,7 @@
                     <!--
                     <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
                     -->
-                    <td><a href="{% url "cart:cart_remove" cart.id %}"><i class="fa-regular fa-circle-xmark"></i></a>
+                    <td><a href="{% url "cart:cart_remove"%}"><i class="fa-regular fa-circle-xmark"></i></a>
                     </td>
                 </tr>
             {% endfor %}

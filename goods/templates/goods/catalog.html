@@ -166,11 +166,10 @@
                                     {% endif %}
                                 </div>
                                 <div class="product-links">
-                                    <!--
-                                    <a href="{% url "cart:cart_add" product.slug %}" class="btn btn-outline-secondary add-to-cart"><i
-                                            class="fas fa-shopping-cart"></i></a>
-                                    -->
-                                    <a href="{% url "cart:cart_add" product.slug %}">
+                                    <a href="{% url "cart:cart_add" %}" 
+                                    class="btn btn-outline-secondary add-to-cart"
+                                    data-product-id="{{ product.id }}">
+                                        {% csrf_token %}
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
                                     
