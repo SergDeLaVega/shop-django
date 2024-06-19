@@ -85,11 +85,6 @@
                             </ul>
                         </li>
                         {% endif %}
-
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url "users:users_cart" %}">Корзина</a>
-                        </li>
-
                     </ul>
                 </div>
             </div>
@@ -123,16 +118,14 @@
 {% endblock cart %}
 
 
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+<div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <!--Начало корзины товаров-->
-        
         {% include "carts/_inc/included_cart.html" %}
-        
         <!--Конец козины товаров товаров-->
     </div>
 </div>

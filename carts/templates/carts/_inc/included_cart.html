@@ -13,40 +13,35 @@
                             {%else%}
                             <td class="product-img-td"><a href="{% url "goods:product" cart.product.slug %}"><img src="{% static "img/products/alt.jpg" %}" alt=""></a>
                     {% endif %}
-                    <td><a href="{% url "goods:product" cart.product.slug %}">{{cart.product.name}}</a></td>
+                    <td w-75><a href="{% url "goods:product" cart.product.slug %}">{{cart.product.name}}</a></td>
                     <td>${{cart.products_price}}</td>
                     
-                    <td>&times;{{cart.quantity}}</td>
-                    
-                    <!--
                     <td class="w-25">
-                        <div class="row text-center">
-                            <div class="col p-0">
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-dark btn-sm decrement"
+                                        <button type="button" class="btn btn-warning btn-md decrement"
                                             data-cart-id="{{ cart.id }}"
-                                            data-cart-change-url="#">
+                                            data-cart-change-url="{% url "cart:cart_change" %}">
                                             {% csrf_token %}
                                             -</button>
                                     </span>
                                     <input type="text" class="form-control number" value="{{ cart.quantity }}"
                                         readonly>
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-dark btn-sm increment"
+                                        <button type="button" class="btn btn-warning btn-md increment"
                                             data-cart-id="{{ cart.id }}"
-                                            data-cart-change-url="#">
+                                            data-cart-change-url="{% url "cart:cart_change" %}">
                                             {% csrf_token %}
                                             +</button>
                                     </span>
                                 </div>
-                            </div>
                     </td>
-                    -->
-                    <!--
-                    <td><button class="btn btn-danger"><i class="fa-regular fa-circle-xmark"></i></button>
-                    -->
-                    <td><a href="{% url "cart:cart_remove"%}"><i class="fa-regular fa-circle-xmark"></i></a>
+                    <td>
+                    <a href="{% url "cart:cart_remove"%}" class="btn btn-danger remove-from-cart"
+                    data-cart-id="{{ cart.id }}">
+                        {% csrf_token %}
+                        <i class="fa-regular fa-circle-xmark "></i>
+                    </a>
                     </td>
                 </tr>
             {% endfor %}
