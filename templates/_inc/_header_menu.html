@@ -102,7 +102,7 @@
                     <span class="badge text-bg-warning cart-badge bg-warning rounded-circle"
                     id="goods-in-cart-count"
                     >
-                        {{carts.total_quantity }}
+                        {{carts.total_quantity}}
                     </span>
                 </button>
             </div>
@@ -127,6 +127,14 @@
         <!--Начало корзины товаров-->
         {% include "carts/_inc/included_cart.html" %}
         <!--Конец козины товаров товаров-->
+        <div class="text-end mt-3">
+            {% if carts %}
+            <a href="#" class="btn btn-outline-warning">Оформить заказ</a>
+            {% endif %}
+            <!--
+            <a href="#" class="btn btn-outline-secondary">Checkout</a>
+            -->
+        </div>
     </div>
 </div>
 <!--Конец корзины-->
