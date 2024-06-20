@@ -3,9 +3,26 @@ from goods.models import Categories, Products, ProductImage, СonditionsItemCate
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
+
+
 class ProductAdmin(forms.ModelForm):
     full_description = forms.CharField(widget=CKEditorUploadingWidget())
     features = forms.CharField(widget=CKEditorUploadingWidget())
+
+    prepopulated_fields = {"slug": ("name",)}
+    list_display = ["name", "quantity", "price", "discount"]
+    list_editable = ["discount",]
+    search_fields = ["name", "description"]
+    list_filter = ["discount", "quantity", "category"]
+    fields = [
+        "name",
+        "category",
+        "slug",
+        "description",
+        "image",
+        ("price", "discount"),
+        "quantity",
+    ]
 
     class Meta:
         model = Products
@@ -15,6 +32,13 @@ class ProductAdmin(forms.ModelForm):
 class CategoriesAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
     list_display = ["name",]
+
+
+
+
+
+
+
 
 class FeatureValueInline(admin.TabularInline):
     model = FeatureValue
