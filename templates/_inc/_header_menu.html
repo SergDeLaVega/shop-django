@@ -96,6 +96,17 @@
                     <span class="badge text-bg-warning cart-badge bg-warning rounded-circle">3</span>
                 </a>
 
+                <a href="{% url "users:users_cart" %}" class="btn p-1">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class="badge text-bg-warning cart-badge bg-warning rounded-circle"
+                    id="goods-in-cart-count"
+                    >
+                        {{carts.total_quantity}}
+                    </span>
+                </a>
+
+
+                <!--
                 <button class="btn p-1" id="cart-open" type="button" data-bs-toggle="offcanvas2"
                     data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                     <i class="fa-solid fa-cart-shopping"></i>
@@ -105,36 +116,29 @@
                         {{carts.total_quantity}}
                     </span>
                 </button>
+                -->
             </div>
-            <!--Конец кнопки понравившееся товары и корзина-->
         </div>
     </nav>
 </div>
 <!-- ./header-bottom -->
 
-<!--Начало корзины-->
-{% block cart %}
-
-{% endblock cart %}
-
-
+<!--Начало корзины
 <div class="offcanvas offcanvas-end w-50" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasCartLabel">Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <!--Начало корзины товаров-->
         {% include "carts/_inc/included_cart.html" %}
-        <!--Конец козины товаров товаров-->
         <div class="text-end mt-3">
             {% if carts %}
             <a href="#" class="btn btn-outline-warning">Оформить заказ</a>
             {% endif %}
-            <!--
+            
             <a href="#" class="btn btn-outline-secondary">Checkout</a>
-            -->
+            
         </div>
     </div>
 </div>
-<!--Конец корзины-->
+-->

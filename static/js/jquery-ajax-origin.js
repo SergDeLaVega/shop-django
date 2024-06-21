@@ -159,7 +159,7 @@ $(document).ready(function () {
                 successMessage.fadeIn(400);
                  // Через 7сек убираем сообщение
                 setTimeout(function () {
-                    successMessage.fadeOut(400);
+                     successMessage.fadeOut(400);
                 }, 7000);
 
                 // Изменяем количество товаров в корзине
@@ -210,4 +210,80 @@ $(document).ready(function () {
             $("#deliveryAddressField").hide();
         }
     });
+});
+
+
+
+
+
+
+
+
+-----------------------------------------------
+// Функция для добавления товара в корзину
+function addToCart(productId) {
+    $.ajax({
+        type: 'POST',
+        url: '/cart/add/', // URL для добавления товара в корзину
+        data: {
+            'product_id': productId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(data) {
+            $('#cart-items-container').html(data.cart_items_html);
+            alert(data.message);
+        }
+    });
+}
+
+// Функция для изменения количества товара в корзине
+function changeQuantity(cartId, quantity) {
+    $.ajax({
+        type: 'POST',
+        url: '/cart/change/', // URL для изменения количества товара в корзине
+        data: {
+            'cart_id': cartId,
+            'quantity': quantity,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(data) {
+            $('#cart-items-container').html(data.cart_items_html);
+            alert(data.message);
+        }
+    });
+}
+
+// Функция для удаления товара из корзины
+function removeFromCart(cartId) {
+    $.ajax({
+        type: 'POST',
+        url: '/cart/remove/', // URL для удаления товара из корзины
+        data: {
+            'cart_id': cartId,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(data) {
+            $('#cart-items-container').html(data.cart_items_html);
+            alert(data.message);
+        }
+    });
+}
+
+// Обработчик события для кнопки "Добавить в корзину"
+$(document).on('click', '.add-to-cart-btn', function() {
+    var productId = $(this).data('product-id');
+    addToCart(productId);
+});
+
+// Обработчик события для кнопки "Изменить количество"
+$(document).on('click', '.change-quantity-btn', function() {
+    var cartId = $(this).data('cart-id');
+    var quantity = $(this).data('quantity');
+    changeQuantity(cartId, quantity);
+});
+
+// Обработчик события для кнопки "Удалить из корзины"
+$(document).on('click', '.remove-from-cart-btn', function() {
+    var cartId = $(this).data('cart-id');
+    removeFromCart(cartId);
 });

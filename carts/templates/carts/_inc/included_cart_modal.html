@@ -3,18 +3,7 @@
 {% user_carts request as carts %}
 
 <div class="table-responsive" id="cart-items-container">
-    <table class="table align-middle table-hover">
-
-        <thead class="table-dark">
-            <tr>
-                <th>Photo</th>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th><i class="fa-regular fa-trash-can"></i></th>
-            </tr>
-        </thead>
-
+    <table class="table offcanvasCart-table">
         <tbody>
             {% for cart in carts %}
                 <tr>
@@ -64,10 +53,4 @@
             </tr>
         </tfoot>
     </table>
-
-    <div class="text-end mt-3">
-        {% if carts %}
-        <a href="#" class="btn btn-outline-warning">Оформить заказ</a>
-        {% endif %}
-    </div>
 </div>
